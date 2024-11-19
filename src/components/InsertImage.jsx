@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import "./component.css";
 import api from "../services/apiServices.js";
-import { Carousel } from "react-responsive-carousel";  
-import "react-responsive-carousel/lib/styles/carousel.min.css"; 
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 const InsertImage = () => {
   const [file, setFile] = useState(null);
@@ -23,12 +23,18 @@ const InsertImage = () => {
     formData.append("file", file);
 
     try {
-      console.log("API:", api);
       const response = await api.post("/curate/", formData);
       console.log("API Response:", response.data);
-      setResult(response.data);
+
+      if (response.status === 422) {
+        alert("No outerwear detected!");
+      } else if (response.status === 500) {
+        alert("Something went wrong, please try again.");
+      } else {
+        setResult(response.data.message); 
+      }
     } catch (error) {
-      console.error("Error uploading image:", error);
+      alert("No outerwear detected!");
     } finally {
       setLoading(false);
     }
@@ -44,12 +50,12 @@ const InsertImage = () => {
         <div className="carousel-container">
           {result && result.length > 0 && (
             <Carousel
-              showArrows={true} 
-              infiniteLoop={true}  
-              emulateTouch={true}  
-              showThumbs={false}  
-              dynamicHeight={true}  
-              swipeable={true}  
+              showArrows={true}
+              infiniteLoop={true}
+              emulateTouch={true}
+              showThumbs={false}
+              dynamicHeight={true}
+              swipeable={true}
             >
               {result.map((url, index) => (
                 <div key={index}>
@@ -66,12 +72,12 @@ const InsertImage = () => {
       </div>
 
       <form onSubmit={handleSubmit}>
-        <input 
+        <input
           id="file-upload"
-          type="file" 
-          onChange={handleFileChange} 
+          type="file"
+          onChange={handleFileChange}
           accept="image/*"
-          className="file-input" 
+          className="file-input"
         />
         <button type="submit" disabled={loading} className="btn btn-outline-light mx-2">
           {loading ? "Processing..." : "Submit"}
