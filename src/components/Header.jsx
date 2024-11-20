@@ -3,7 +3,7 @@ import './component.css';
 
 const Header = () => {
   return (
-    <header className="header">
+    <header className="header d-flex">
       <h1 className="fs-5">Curate Closet </h1>
       <svg
         xmlns="http://www.w3.org/2000/svg"

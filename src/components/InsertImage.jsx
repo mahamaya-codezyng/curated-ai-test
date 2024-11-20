@@ -31,7 +31,7 @@ const InsertImage = () => {
       } else if (response.status === 500) {
         alert("Something went wrong, please try again.");
       } else {
-        setResult(response.data.message); 
+        setResult(response.data.message);
       }
     } catch (error) {
       alert("No outerwear detected!");
@@ -77,10 +77,23 @@ const InsertImage = () => {
           type="file"
           onChange={handleFileChange}
           accept="image/*"
-          className="file-input"
+          className="file-input my-2"
         />
-        <button type="submit" disabled={loading} className="btn btn-outline-light mx-2">
+        {/* <button type="submit" disabled={loading} className="btn btn-outline-light mx-2 mx-md-3 btn-sm">
           {loading ? "Processing..." : "Submit"}
+        </button> */}
+        <button
+          type="submit"
+          disabled={loading}
+          className="btn btn-outline-light mx-2 mx-md-3 btn-sm"
+        >
+          {loading ? (
+            <div className="spinner-border spinner-border-sm" role="status">
+              <span className="sr-only"></span>
+            </div>
+          ) : (
+            "Submit"
+          )}
         </button>
       </form>
     </div>

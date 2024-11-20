@@ -1,11 +1,17 @@
-FROM nginx:alpine
+# Use official Node.js image as a base
+FROM node:16-slim
 
-WORKDIR /usr/share/nginx/html
+# Set the working directory inside the container
+WORKDIR /app
 
-RUN rm -rf ./*
+# Copy the build folder into the container
+COPY build/ /app
 
-COPY build /usr/share/nginx/html
+# Install `serve` globally to serve the React app
+RUN npm install -g serve
 
-EXPOSE 80
+# Expose port 1111 inside the container (the port React app runs on)
+EXPOSE 1111
 
-CMD ["nginx", "-g", "daemon off;"]
+# Command to run the React app using serve
+CMD ["serve", "-s", ".", "-l", "1111"]
