@@ -23,7 +23,7 @@ const InsertImage = () => {
     formData.append("file", file);
 
     try {
-      const response = await api.post("/curate/", formData);
+      const response = await api.post("/closet/", formData);
       console.log("API Response:", response.data);
 
       if (response.status === 422) {
